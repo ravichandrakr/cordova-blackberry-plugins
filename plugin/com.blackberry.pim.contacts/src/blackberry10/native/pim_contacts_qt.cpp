@@ -159,6 +159,8 @@ Json::Value PimContactsQt::Save(const Json::Value& attributeObj)
 
 Json::Value PimContactsQt::CreateContact(const Json::Value& attributeObj)
 {
+    fprintf(stdout, "CreateContact attributeObj %s\n", attributeObj.toStyledString().c_str());
+    fflush(stdout);
     const Json::Value::Members attributeKeys = attributeObj.getMemberNames();
     Json::Value contactFields;
 
@@ -177,6 +179,8 @@ Json::Value PimContactsQt::CreateContact(const Json::Value& attributeObj)
     Json::Value returnObj;
 
     if (newContact.isValid()) {
+        fprintf(stdout, "Before native populateContact %s\n", contactFields.toStyledString().c_str());
+        fflush(stdout);
         returnObj = populateContact(newContact, contactFields);
         returnObj["_success"] = true;
     } else {
