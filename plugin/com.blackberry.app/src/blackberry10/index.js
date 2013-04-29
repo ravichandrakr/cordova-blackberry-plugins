@@ -207,19 +207,19 @@ module.exports = {
             recieveRotateEvents = args.recieveRotateEvents === undefined  ? true : args.recieveRotateEvents;
 
         // Force rotate to the given orientation then lock it
-        qnx.webplatform.getApplication().rotate(rotateTo);
-        qnx.webplatform.getApplication().lockRotation(recieveRotateEvents);
+        wp.getApplication().rotate(rotateTo);
+        wp.getApplication().lockRotation(recieveRotateEvents);
         success(true);
     },
 
     unlockOrientation : function (success, fail, args, env) {
-        qnx.webplatform.getApplication().unlockRotation();
+        wp.getApplication().unlockRotation();
         success();
     },
 
     rotate : function (success, fail, args, env) {
         var orientation = translateToDeviceOrientation(JSON.parse(decodeURIComponent(args.orientation)), fail);
-        qnx.webplatform.getApplication().rotate(orientation);
+        wp.getApplication().rotate(orientation);
         success();
     },
 
@@ -229,16 +229,16 @@ module.exports = {
     },
 
     minimize: function (success) {
-        qnx.webplatform.getApplication().minimizeWindow();
+        wp.getApplication().minimizeWindow();
         success();
     },
 
     exit: function (success) {
-        window.qnx.webplatform.getApplication().exit();
+        window.wp.getApplication().exit();
         success();
     },
 
     windowState : function (success, fail, args, env) {
-        success(qnx.webplatform.getApplication().windowState);
+        success(wp.getApplication().windowState);
     }
 };

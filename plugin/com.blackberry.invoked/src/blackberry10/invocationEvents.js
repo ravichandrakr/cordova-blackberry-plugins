@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var _application = window.qnx.webplatform.getApplication(),
+var _application = window.wp.getApplication(),
     _startupMode = _application.invocation.getStartupMode();
 
 module.exports = {
@@ -24,13 +24,13 @@ module.exports = {
                 trigger(_application.invocation.getRequest());
                 _startupMode = _application.invocation.LAUNCH;
             }
-            window.qnx.webplatform.getApplication().invocation.addEventListener("Invoked", trigger);
+            window.wp.getApplication().invocation.addEventListener("Invoked", trigger);
             break;
         case "onCardResize":
-            window.qnx.webplatform.getApplication().invocation.addEventListener("cardResize", trigger);
+            window.wp.getApplication().invocation.addEventListener("cardResize", trigger);
             break;
         case "onCardClosed":
-            window.qnx.webplatform.getApplication().invocation.addEventListener("cardClosed", trigger);
+            window.wp.getApplication().invocation.addEventListener("cardClosed", trigger);
             break;
         default:
             console.log("Ignore registration for unknown event: " + event);
@@ -40,13 +40,13 @@ module.exports = {
     removeEventListener: function (event, trigger) {
         switch (event) {
         case "invoked":
-            window.qnx.webplatform.getApplication().invocation.removeEventListener("Invoked", trigger);
+            window.wp.getApplication().invocation.removeEventListener("Invoked", trigger);
             break;
         case "onCardResize":
-            window.qnx.webplatform.getApplication().invocation.removeEventListener("cardResize", trigger);
+            window.wp.getApplication().invocation.removeEventListener("cardResize", trigger);
             break;
         case "onCardClosed":
-            window.qnx.webplatform.getApplication().invocation.removeEventListener("cardClosed", trigger);
+            window.wp.getApplication().invocation.removeEventListener("cardClosed", trigger);
             break;
         default:
             console.log("Ignore un-registration for unknown event: " + event);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var _application = window.qnx.webplatform.getApplication();
+var _application = window.wp.getApplication();
 
 module.exports = {
     addEventListener: function (event, trigger) {

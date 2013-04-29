@@ -40,7 +40,7 @@ function checkPermission(success, eventId) {
 }
 
 function onChildCardClosed(cb) {
-    var application = window.qnx.webplatform.getApplication(),
+    var application = window.wp.getApplication(),
         result = {},
         kindAttributeMap = contactConsts.getKindAttributeMap(),
         subKindAttributeMap = contactConsts.getSubKindAttributeMap(),
@@ -225,7 +225,7 @@ module.exports = {
             success(result.accounts);
         } else {
             fail(-1, "Failed to get accounts");
-        }        
+        }
     }
 };
 
@@ -234,7 +234,7 @@ module.exports = {
 ///////////////////////////////////////////////////////////////////
 
 JNEXT.PimContacts = function ()
-{   
+{
     var self = this,
         hasInstance = false;
 
@@ -276,25 +276,25 @@ JNEXT.PimContacts = function ()
         }
 
         self.m_id = JNEXT.createObject("libpimcontacts.PimContacts");
-        
+
         if (self.m_id === "") {
             return false;
         }
 
         JNEXT.registerEvents(self);
     };
-   
+
     self.onEvent = function (strData) {
         var arData = strData.split(" "),
             strEventDesc = arData[0],
             args = {};
-            
+
         if (strEventDesc === "result") {
             args.result = escape(strData.split(" ").slice(2).join(" "));
             _event.trigger(arData[1], args);
         }
     };
-    
+
     self.m_id = "";
 
     self.getInstance = function () {

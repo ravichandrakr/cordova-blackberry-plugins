@@ -40,7 +40,7 @@ function getCurrentTimezone(success, eventId) {
     var timezone = null;
 
     try {
-        timezone = window.qnx.webplatform.device.timezone;
+        timezone = window.wp.device.timezone;
     } catch (e) {
         _event.trigger(eventId, {
             "result": escape(JSON.stringify({

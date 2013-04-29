@@ -16,7 +16,7 @@
 var _event = require("../../lib/event"),
     overlayWebView;
 
-qnx.webplatform.getController().addEventListener('overlayWebView.initialized', function (webviewObj) {
+wp.getController().addEventListener('overlayWebView.initialized', function (webviewObj) {
     overlayWebView = webviewObj;
 });
 
@@ -33,7 +33,7 @@ module.exports = {
                 _event.trigger("invokeMediaPlayer.invokeEventId", error);
             };
 
-        window.qnx.webplatform.getApplication().cards.mediaplayerPreviewer.open(options, done, cancel, invokeCallback);
+        window.wp.getApplication().cards.mediaplayerPreviewer.open(options, done, cancel, invokeCallback);
         success();
     },
 
@@ -49,7 +49,7 @@ module.exports = {
                 _event.trigger("invokeCamera.invokeEventId", error);
             };
 
-        window.qnx.webplatform.getApplication().cards.camera.open(mode, done, cancel, invokeCallback);
+        window.wp.getApplication().cards.camera.open(mode, done, cancel, invokeCallback);
         success();
     },
 
@@ -65,7 +65,7 @@ module.exports = {
                 _event.trigger("invokeFilePicker.invokeEventId", error);
             };
 
-        window.qnx.webplatform.getApplication().cards.filePicker.open(options, done, cancel, invokeCallback);
+        window.wp.getApplication().cards.filePicker.open(options, done, cancel, invokeCallback);
         success();
     },
 
@@ -81,7 +81,7 @@ module.exports = {
                 _event.trigger("invokeIcsViewer.invokeEventId", error);
             };
 
-        window.qnx.webplatform.getApplication().cards.icsViewer.open(options, done, cancel, invokeCallback);
+        window.wp.getApplication().cards.icsViewer.open(options, done, cancel, invokeCallback);
         success();
     },
 
@@ -98,7 +98,7 @@ module.exports = {
                 _event.trigger("invokeCalendarPicker.invokeEventId", error);
             };
 
-        window.qnx.webplatform.getApplication().cards.calendar.picker.open(options, done, cancel, invokeCallback);
+        window.wp.getApplication().cards.calendar.picker.open(options, done, cancel, invokeCallback);
         success();
     },
 
@@ -114,7 +114,7 @@ module.exports = {
                 _event.trigger("invokeCalendarComposer.invokeEventId", error);
             };
 
-        window.qnx.webplatform.getApplication().cards.calendar.composer.open(options, done, cancel, invokeCallback);
+        window.wp.getApplication().cards.calendar.composer.open(options, done, cancel, invokeCallback);
         success();
     },
 
@@ -130,14 +130,14 @@ module.exports = {
                 _event.trigger("invokeEmailComposer.invokeEventId", error);
             };
 
-        window.qnx.webplatform.getApplication().cards.email.composer.open(options, done, cancel, invokeCallback);
+        window.wp.getApplication().cards.email.composer.open(options, done, cancel, invokeCallback);
         success();
     },
 
     invokeTargetPicker: function (success, fail, args) {
         var title = JSON.parse(decodeURIComponent(args.title)),
             request = JSON.parse(decodeURIComponent(args.request)),
-            invocation = qnx.webplatform.getApplication().invocation,
+            invocation = wp.getApplication().invocation,
             onError,
             onSuccess;
 

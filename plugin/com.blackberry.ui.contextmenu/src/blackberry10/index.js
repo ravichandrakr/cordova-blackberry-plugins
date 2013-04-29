@@ -83,7 +83,7 @@ contextmenu = {
     defineCustomContext: defineCustomContext
 };
 
-qnx.webplatform.getController().addEventListener('ui.init', function () {
+wp.getController().addEventListener('ui.init', function () {
     _overlayWebView = require(LIB_FOLDER + 'overlayWebView');
 });
 

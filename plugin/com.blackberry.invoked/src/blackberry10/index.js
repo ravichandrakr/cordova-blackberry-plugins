@@ -49,7 +49,7 @@ var _event = require("./../../lib/event"),
 module.exports = {
     cardResizeDone: function (success, fail, args) {
         try {
-            window.qnx.webplatform.getApplication().invocation.cardResized();
+            window.wp.getApplication().invocation.cardResized();
             success();
         } catch (e) {
             fail(-1, e);
@@ -61,7 +61,7 @@ module.exports = {
 
         try {
             cardPeek = decodeURIComponent(args["peekType"]);
-            window.qnx.webplatform.getApplication().invocation.cardPeek(cardPeek);
+            window.wp.getApplication().invocation.cardPeek(cardPeek);
             success();
         } catch (e) {
             fail(-1, e);
@@ -73,7 +73,7 @@ module.exports = {
 
         try {
             request = JSON.parse(decodeURIComponent(args["request"]));
-            window.qnx.webplatform.getApplication().invocation.sendCardDone(request);
+            window.wp.getApplication().invocation.sendCardDone(request);
             success();
         } catch (e) {
             fail(-1, e);

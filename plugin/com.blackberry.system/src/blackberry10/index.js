@@ -147,8 +147,8 @@ module.exports = {
             fontSize;
 
         try {
-            fontFamily = window.qnx.webplatform.getApplication().getSystemFontFamily();
-            fontSize = window.qnx.webplatform.getApplication().getSystemFontSize();
+            fontFamily = window.wp.getApplication().getSystemFontFamily();
+            fontSize = window.wp.getApplication().getSystemFontSize();
 
             success({'fontFamily': fontFamily, 'fontSize': fontSize});
         } catch (e) {
@@ -159,9 +159,9 @@ module.exports = {
     getDeviceProperties: function (success, fail) {
         try {
             var returnObj = {
-                "hardwareId" : window.qnx.webplatform.device.hardwareId,
-                "softwareVersion" : window.qnx.webplatform.device.scmBundle,
-                "name" : window.qnx.webplatform.device.deviceName
+                "hardwareId" : window.wp.device.hardwareId,
+                "softwareVersion" : window.wp.device.scmBundle,
+                "name" : window.wp.device.deviceName
             };
             success(returnObj);
         } catch (err) {
@@ -173,7 +173,7 @@ module.exports = {
         var region;
 
         try {
-            region = window.qnx.webplatform.getApplication().systemRegion;
+            region = window.wp.getApplication().systemRegion;
             success(region);
         } catch (e) {
             fail(ERROR_ID, e.message);
@@ -182,7 +182,7 @@ module.exports = {
 
     getCurrentTimezone: function (success, fail) {
         try {
-            success(window.qnx.webplatform.device.timezone);
+            success(window.wp.device.timezone);
         } catch (err) {
             fail(ERROR_ID, err.message);
         }
@@ -190,7 +190,7 @@ module.exports = {
 
     getTimezones: function (success, fail) {
         try {
-            window.qnx.webplatform.device.getTimezones(success);
+            window.wp.device.getTimezones(success);
         } catch (err) {
             fail(ERROR_ID, err.message);
         }
@@ -202,7 +202,7 @@ module.exports = {
 
             // Removing file:// form the path because newWallpaper can't handle it.
             path = path.replace(/file:\/\//, '');
-            window.qnx.webplatform.getApplication().newWallpaper(path);
+            window.wp.getApplication().newWallpaper(path);
             success();
         } catch (err) {
             fail(ERROR_ID, err.message);
@@ -216,7 +216,7 @@ module.exports = {
             callback = function (state) {
                 success(state);
             };
-            window.qnx.webplatform.getApplication().isDeviceLocked(callback);
+            window.wp.getApplication().isDeviceLocked(callback);
         } catch (err) {
             fail(ERROR_ID, err.message);
         }

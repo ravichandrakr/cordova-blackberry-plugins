@@ -63,7 +63,7 @@ module.exports = {
                 }
             };
 
-        window.qnx.webplatform.getApplication().invocation.invoke(request, callback);
+        window.wp.getApplication().invocation.invoke(request, callback);
         result.noResult(true);
     },
 
@@ -77,7 +77,7 @@ module.exports = {
                     result.callbackOk(response, false);
                 }
             },
-            invocation = window.qnx.webplatform.getApplication().invocation;
+            invocation = window.wp.getApplication().invocation;
 
         if (request["target_type"] && Array.isArray(request["target_type"])) {
 
@@ -114,7 +114,7 @@ module.exports = {
         var result = new PluginResult(args, env);
 
         try {
-            window.qnx.webplatform.getApplication().invocation.closeChildCard();
+            window.wp.getApplication().invocation.closeChildCard();
             result.ok();
         } catch (e) {
             result.error(e);

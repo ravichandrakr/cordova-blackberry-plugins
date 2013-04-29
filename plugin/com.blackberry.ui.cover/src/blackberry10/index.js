@@ -57,7 +57,7 @@ module.exports = {
 
     resetCover: function (success, fail, args, env) {
         try {
-            window.qnx.webplatform.getApplication().updateCover({"cover": "reset"});
+            window.wp.getApplication().updateCover({"cover": "reset"});
             success();
         } catch (e) {
             console.log(e);
@@ -67,7 +67,7 @@ module.exports = {
 
     coverSize: function (success, fail, args, env) {
         try {
-            var coverSize = window.qnx.webplatform.getApplication().coverSize,
+            var coverSize = window.wp.getApplication().coverSize,
                 result = (typeof coverSize === "string") ? JSON.parse(coverSize) : coverSize;
             success(result);
         } catch (e) {
@@ -79,7 +79,7 @@ module.exports = {
     updateCover: function (success, fail, args, env) {
         try {
             var processedCover = processCover(JSON.parse(decodeURIComponent(args.cover)));
-            window.qnx.webplatform.getApplication().updateCover(processedCover);
+            window.wp.getApplication().updateCover(processedCover);
             success();
         } catch (e) {
             console.log(e);

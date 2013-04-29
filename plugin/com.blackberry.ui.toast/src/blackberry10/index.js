@@ -37,7 +37,7 @@ toast = {
     show : show
 };
 
-qnx.webplatform.getController().addEventListener('overlayWebView.initialized', function (webview) {
+wp.getController().addEventListener('overlayWebView.initialized', function (webview) {
     _overlayWebView = webview;
 });
 
