@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 var _application = window.wp.getApplication(),
-    _startupMode = _application.invocation.getStartupMode();
+    _startupMode = wp.core.invocation.getStartupMode();
 
 module.exports = {
     addEventListener: function (event, trigger) {
         switch (event) {
         case "invoked":
-            if (_startupMode !== _application.invocation.LAUNCH) {
-                trigger(_application.invocation.getRequest());
-                _startupMode = _application.invocation.LAUNCH;
+            if (_startupMode !== wp.core.invocation.LAUNCH) {
+                trigger(wp.core.invocation.getRequest());
+                _startupMode = wp.core.invocation.LAUNCH;
             }
-            window.wp.getApplication().invocation.addEventListener("Invoked", trigger);
+            window.wp.core.invocation.on("Invoked", trigger);
             break;
         case "onCardResize":
-            window.wp.getApplication().invocation.addEventListener("cardResize", trigger);
+            window.wp.core.invocation.on("cardResize", trigger);
             break;
         case "onCardClosed":
-            window.wp.getApplication().invocation.addEventListener("cardClosed", trigger);
+            window.wp.core.invocation.on("cardClosed", trigger);
             break;
         default:
             console.log("Ignore registration for unknown event: " + event);
@@ -40,13 +40,13 @@ module.exports = {
     removeEventListener: function (event, trigger) {
         switch (event) {
         case "invoked":
-            window.wp.getApplication().invocation.removeEventListener("Invoked", trigger);
+            window.wp.core.invocation.un("Invoked", trigger);
             break;
         case "onCardResize":
-            window.wp.getApplication().invocation.removeEventListener("cardResize", trigger);
+            window.wp.core.invocation.un("cardResize", trigger);
             break;
         case "onCardClosed":
-            window.wp.getApplication().invocation.removeEventListener("cardClosed", trigger);
+            window.wp.core.invocation.un("cardClosed", trigger);
             break;
         default:
             console.log("Ignore un-registration for unknown event: " + event);

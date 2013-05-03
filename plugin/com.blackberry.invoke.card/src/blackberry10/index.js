@@ -16,7 +16,7 @@
 var _event = require("../../lib/event"),
     overlayWebView;
 
-wp.getController().addEventListener('overlayWebView.initialized', function (webviewObj) {
+wp.getController().on('overlayWebView.initialized', function (webviewObj) {
     overlayWebView = webviewObj;
 });
 
@@ -137,7 +137,7 @@ module.exports = {
     invokeTargetPicker: function (success, fail, args) {
         var title = JSON.parse(decodeURIComponent(args.title)),
             request = JSON.parse(decodeURIComponent(args.request)),
-            invocation = wp.getApplication().invocation,
+            invocation = wp.core.invocation,
             onError,
             onSuccess;
 

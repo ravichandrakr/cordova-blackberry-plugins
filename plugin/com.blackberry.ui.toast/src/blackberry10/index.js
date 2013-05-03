@@ -22,6 +22,8 @@ function show(success, fail, args, env) {
         message = args.message !== 'undefined' ? JSON.parse(decodeURIComponent(args.message)) : undefined,
         options = args.options !== 'undefined' ? JSON.parse(decodeURIComponent(args.options)) : {};
 
+    debugger;
+    console.log('toasting');
     options.dismissHandler = function (toastId) {
         result.callbackOk({reason: "dismissed", toastId: toastId}, false);
     };
@@ -30,15 +32,11 @@ function show(success, fail, args, env) {
     };
 
     // Return the toastId to the client from WP created toast
-    result.ok({reason: "created", toastId: _overlayWebView.toast.show(message, options)}, true);
+    result.ok({reason: "created", toastId: wp.ui.toast.show(message, options)}, true);
 }
 
 toast = {
     show : show
 };
-
-wp.getController().addEventListener('overlayWebView.initialized', function (webview) {
-    _overlayWebView = webview;
-});
 
 module.exports = toast;

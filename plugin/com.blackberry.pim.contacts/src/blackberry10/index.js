@@ -45,7 +45,7 @@ function onChildCardClosed(cb) {
         kindAttributeMap = contactConsts.getKindAttributeMap(),
         subKindAttributeMap = contactConsts.getSubKindAttributeMap(),
         callback = function (info) {
-            application.invocation.removeEventListener("childCardClosed", callback);
+            wp.core.invocation.un("childCardClosed", callback);
 
             if (info.reason === "cancel") {
                 cb(undefined, "cancel");
@@ -84,7 +84,7 @@ function onChildCardClosed(cb) {
             }
         };
 
-    application.invocation.addEventListener("childCardClosed", callback);
+    wp.core.invocation.on("childCardClosed", callback);
 }
 
 function getAccountFilters(options) {
