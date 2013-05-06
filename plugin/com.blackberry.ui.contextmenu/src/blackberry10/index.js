@@ -16,7 +16,6 @@
 
 var LIB_FOLDER = "../../lib/",
     contextmenu,
-    _overlayWebView,
     _event = require(LIB_FOLDER + 'event'),
     _utils = require(LIB_FOLDER + 'utils');
 
@@ -25,11 +24,11 @@ function enabled(success, fail, args, env) {
     if (typeof args.enabled !== 'undefined') {
         _enabled = JSON.parse(decodeURIComponent(args.enabled));
         if (typeof(_enabled) === 'boolean') {
-            _overlayWebView.contextMenu.enabled = _enabled;
+            wp.ui.contextMenu.enabled = _enabled;
         }
         success();
     } else {
-        success(_overlayWebView.contextMenu.enabled);
+        success(wp.ui.contextMenu.enabled);
     }
 }
 /*
@@ -41,7 +40,7 @@ function overrideItem(success, fail, args, env) {
     args.handler = function (actionId) {
         _event.trigger("contextmenu.executeMenuAction", actionId);
     };
-    success(_overlayWebView.contextMenu.overrideItem(args.action, args.handler));
+    success(wp.ui.contextMenu.overrideItem(args.action, args.handler));
 }
 
 /*
@@ -50,7 +49,7 @@ function overrideItem(success, fail, args, env) {
  */
 function clearOverride(success, fail, args, env) {
     var actionId = JSON.parse(decodeURIComponent(args.actionId));
-    success(_overlayWebView.contextMenu.clearOverride(actionId));
+    success(wp.ui.contextMenu.clearOverride(actionId));
 }
 
 function addItem(success, fail, args, env) {
