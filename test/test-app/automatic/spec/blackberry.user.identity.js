@@ -20,7 +20,6 @@ describe("blackberry.user.identity", function () {
         delay = 5000;
         onSuccessSpy = jasmine.createSpy("onSuccessSpy");
         onErrorSpy = jasmine.createSpy("onErrorSpy");
-        //blackberry.user.identity.registerProvider("ids:rim:bbid");
     });
 
     it("blackberry.user.identity should exist", function () {
@@ -148,19 +147,85 @@ describe("blackberry.user.identity", function () {
         }, "wait for error callback", delay);
     });
 
-    it("getToken should have tests", function () {
+    it("getToken should be able to receive a token", function () {
+        properties = {
+            paramCount: 1,
+            requestId: jasmine.any(Number),
+            token: jasmine.any(String),
+            tokenParams: [{
+                name: "TOKEN_SECRET",
+                value: jasmine.any(String)
+            }]
+        }
+
+        blackberry.user.identity.getToken("ids:rim:bbid", "AppWorld", "urn:bbid:appworld:appworld", onSuccessSpy, onErrorSpy);
+
+        waitsFor(function () {
+            return onSuccessSpy.callCount;
+        }, "wait for success callback", delay);
+
+        runs(function () {
+            expect(onSuccessSpy).toHaveBeenCalledWith(properties);
+        });
+    });
+
+    it("clearToken should delete a token", function () {
+        properties = {
+            clear: true,
+            requestId: jasmine.any(Number)
+        }
+
+        blackberry.user.identity.clearToken("ids:rim:bbid", "AppWorld","urn:bbid:appworld:appworld", onSuccessSpy, onErrorSpy);
+
+        waitsFor(function () {
+            return onSuccessSpy.callCount;
+        }, "wait for success callback", delay);
+
+        runs(function () {
+            expect(onSuccessSpy).toHaveBeenCalledWith(properties);
+        });
+    });
+
+    it("getToken should error on invalid token and appliesTo", function () {
+        blackberry.user.identity.getToken("ids:rim:bbid", "iNotValid", "validity=no", onSuccessSpy, onErrorSpy);
+
+        waitsFor(function () {
+            return onErrorSpy.callCount;
+        }, "wait for error callback", delay);
+    });
+
+    it("clearToken should call success callback with {clear:false} if token has been removed already", function () {
+        properties = {
+            clear: false,
+            requestId: jasmine.any(Number)
+        }
+
+        blackberry.user.identity.clearToken("ids:rim:bbid", "AppWorld","urn:bbid:appworld:appworld", onSuccessSpy, onErrorSpy);
+
+        waitsFor(function () {
+            return onSuccessSpy.callCount;
+        }, "wait for success callback", delay);
+
+        runs(function () {
+            expect(onSuccessSpy).toHaveBeenCalledWith(properties);
+        });
 
     });
 
-    it("clearToken should have tests", function () {
+    it("clearToken should error on invalid parameters", function () {
+        blackberry.user.identity.clearToken("ids:rim:bbid", "iNotValid", "validity=no", onSuccessSpy, onErrorSpy);
 
+        waitsFor(function () {
+            return onErrorSpy.callCount;
+        }, "wait for error callback", delay);
     });
-
-    it("challenge should have tests", function () {
+/*
+    xit("challenge should have tests", function () {
 
     }):
 
-    it("register should have tests", function () {
+    xit("registerNotification should have tests", function () {
 
     });
+  */
 });
