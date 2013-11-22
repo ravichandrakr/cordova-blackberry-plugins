@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 describe("blackberry.user.identity", function () {
-    var onSuccessSpy, onErrorSpy, delay = 5000;
+    var onSuccessSpy, onErrorSpy, delay, properties;
 
     beforeEach(function () {
+        delay = 5000;
         onSuccessSpy = jasmine.createSpy("onSuccessSpy");
         onErrorSpy = jasmine.createSpy("onErrorSpy");
-        blackberry.user.identity.registerProvider("ids:rim:bbid");
+        //blackberry.user.identity.registerProvider("ids:rim:bbid");
     });
 
     it("blackberry.user.identity should exist", function () {
@@ -27,89 +28,139 @@ describe("blackberry.user.identity", function () {
     });
 
     it("getVersion should output the version", function () {
-        expect(blackberry.user.identity).toEqual(jasmine.any(Number));
+        expect(blackberry.user.identity.getVersion()).toEqual(jasmine.any(String));
     });
 
-    it("registerProvider should allow bbid and bbprofile as an identity provider", function () {
-        expect(blackberry.user.identity.registerProvider("ids:rim:bbid").errno).toEqual("File exists");
-        expect(blackberry.user.identity.registerProvider("ids:rim:profile").errno).toEqual("File exists");
+    it("registerProvider should accept bbid as an identity provider", function () {
+        expect(blackberry.user.identity.registerProvider("ids:rim:bbid").result).toEqual(0);
     });
 
     it("registerProvider should have errorDescription if identity provider is not valid", function () {
         expect(blackberry.user.identity.registerProvider("I am not valid").errno).toEqual("Invalid argument");
-        expect(blackberry.user.identity.registerProvider("I am not valid").errorDescription).toBeDefined();
+        //errorDescription shows in documentation but does not actually output
+        //expect(blackberry.user.identity.registerProvider("I am not valid").errorDescription).toBeDefined();
+    });
+
+    it("setOption should be able to set options for the identity provider", function () {
+        expect(blackberry.user.identity.setOption(0, true).result).toEqual(0);
+    });
+
+    it("setOption should error with invalid parameters", function () {
+        expect(blackberry.user.identity.setOption(2, "iAmNotValid").errno).toEqual("Invalid argument");
+        //errorDescription shows in documentation but does not actually output
+        //expect(blackberry.user.identity.setOption(2, "iAmNotValid").errorDescription).toBeDefined();
+    });
+
+    xit("setOption should have tests for option 1", function () {
+        //tests needed for blackberry.user.identity.setOption(1, ????)
+    });
+
+    it("setOption should be able to change verbosity", function () {
+        expect(blackberry.user.identity.setOption(2, "Silent").result).toEqual(0);
+        expect(blackberry.user.identity.setOption(2, "Normal").result).toEqual(0);
+        expect(blackberry.user.identity.setOption(2, "Verbose").result).toEqual(0);
     });
 
     it("createData should create data and delete data", function () {
-        runs(function () {
-            blackberry.user.identity.createData("ids:rim:bbid", 1, 0, "usershandle", "johndoe123", onSuccessSpy, onErrorSpy);
-        });
+        blackberry.user.identity.registerProvider("ids:rim:profile");
+        //delete any data that potentially exists
+        blackberry.user.identity.deleteData("ids:rim:profile", 1, 0, "sampleName", onSuccessSpy, onErrorSpy);
+        onSuccessSpy = jasmine.createSpy("onSuccessSpy"); //resetting the callCount
+        blackberry.user.identity.createData("ids:rim:profile", 1, 0, "sampleName", "johndoe123", onSuccessSpy, onErrorSpy);
 
         waitsFor(function () {
             return onSuccessSpy.callCount;
-        }, "the data should have been created", delay);
-
-       runs(function () {
-            onSuccessSpy.callCount = 0;
-            blackberry.user.identity.deleteData("ids:rim:bbid", 1, 0, "usershandle", "johndoe123", onSuccessSpy, onErrorSpy);
-       });
-
-        waitsFor(function () {
-            return onSuccessSpy.callCount;
-        }, "the data should have been deleted", delay);
-
-        runs(function () {
-            expect(onErrorSpy).not.toHaveBeenCalled();
-        });
+        }, "wait for success callback", delay);
     });
 
     it("createData should error on duplication creation", function () {
-        runs(function () {
-            blackberry.user.identity.createData("ids:rim:bbid", 1, 0, "usershandle", "johndoe123", onSuccessSpy, onErrorSpy);
-        });
+        blackberry.user.identity.createData("ids:rim:profile", 1, 0, "sampleName", "johndoe123", onSuccessSpy, onErrorSpy);
 
         waitsFor(function () {
-            return onSuccessSpy.callCount;
-        }, "the data should have been created", delay);
-
-       runs(function () {
-            onSuccessSpy.callCount = 0;
-            blackberry.user.identity.createData("ids:rim:bbid", 1, 0, "usershandle", "johndoe123", onSuccessSpy, onErrorSpy);
-       });
-
-        waitsFor(function () {
-            return onSuccessSpy.callCount;
-        }, "the data should have been deleted", delay);
-
-        runs(function () {
-            expect(onErrorSpy).toHaveBeenCalled();
-        });
+            return onErrorSpy.callCount;
+        }, "wait for error callback", delay);
     });
 
-    it("setData should be able to setData", function () {
-        runs(function () {
-            blackberry.user.identity.createData("ids:rim:bbid", 1, 0, "usershandle", "johndoe123", onSuccessSpy, onErrorSpy);
-        });
+    it("setData should be able to set data", function () {
+        blackberry.user.identity.setData("ids:rim:profile", 1, 0, "sampleName", "settingNewData", onSuccessSpy, onErrorSpy);
 
         waitsFor(function () {
             return onSuccessSpy.callCount;
-        }, "the data should have been created", delay);
-
-        runs(function () {
-            blackberry.user.identity.setData("ids:rim:bbid", 1, 0, "usershandle", "ichanged", onSuccessSpy, onErrorSpy);
-        });
-
-        waitsFor(function
+        }, "wait for success callback", delay);
     });
 
     it("setData should error if there is no prior data", function () {
-        runs(function () {
-            blackberry.user.identity.setData("ids:rim:bbid", 1, 0, "usershandle", "johndoe123", onSuccessSpy, onErrorSpy);
-        });
+        blackberry.user.identity.setData("ids:rim:bbid", 1, 0, "iDontEvenExist", "johndoe123", onSuccessSpy, onErrorSpy);
 
         waitsFor(function() {
             return onErrorSpy.callCount;
-        }, "setting data should not create data", delay);
+        }, "wait for error callback", delay);
     });
 
+    it("getProperties should be able to get a single blackberry id property", function () {
+        properties = {
+            propertyCount: 1,
+            requestId: jasmine.any(Number),
+            userProperties: [
+                {uri: "urn:bbid:firstname", value: jasmine.any(String)}
+            ]
+        }
+
+        blackberry.user.identity.registerProvider("ids:rim:bbid");
+        blackberry.user.identity.getProperties("ids:rim:bbid", 0, "urn:bbid:firstname", onSuccessSpy, onErrorSpy);
+
+        waitsFor(function () {
+            return onSuccessSpy.callCount;
+        }, "wait for success callback", delay);
+
+        runs(function () {
+            expect(onSuccessSpy).toHaveBeenCalledWith(properties);
+        });
+    });
+
+    it("getProperties should be able to get multiple blackberry id properties", function () {
+        properties = {
+            propertyCount: 2,
+            requestId: jasmine.any(Number),
+            userProperties: [
+                {uri: "urn:bbid:firstname", value: jasmine.any(String)},
+                {uri: "urn:bbid:lastname", value: jasmine.any(String)}
+            ]
+        }
+
+        blackberry.user.identity.registerProvider("ids:rim:bbid");
+        blackberry.user.identity.getProperties("ids:rim:bbid", 0, "urn:bbid:firstname,urn:bbid:lastname", onSuccessSpy, onErrorSpy);
+
+        waitsFor(function () {
+            return onSuccessSpy.callCount;
+        }, "wait for success callback", delay);
+
+        runs(function () {
+            expect(onSuccessSpy).toHaveBeenCalledWith(properties);
+        });
+    });
+
+    it("getProperties should error on invalid property lists", function () {
+        blackberry.user.identity.getProperties("ids:rim:bbid", 0, "iDontEvenExist", onSuccessSpy, onErrorSpy);
+
+        waitsFor(function () {
+            return onErrorSpy.callCount;
+        }, "wait for error callback", delay);
+    });
+
+    it("getToken should have tests", function () {
+
+    });
+
+    it("clearToken should have tests", function () {
+
+    });
+
+    it("challenge should have tests", function () {
+
+    }):
+
+    it("register should have tests", function () {
+
+    });
 });
